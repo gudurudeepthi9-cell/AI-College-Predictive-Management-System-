@@ -50,21 +50,32 @@ The system predicts:
 
 ## 📂 Project Structure
 
-AI-College-Predictive-Management-System/
-
-├── app.py
-
-├── requirements.txt
-
-├── README.md
-
-├── .gitignore
-
-└── templates/
-
-    ├── index.html
-
-    └── result.html
+                    AI COLLEGE PREDICTIVE
+                    MANAGEMENT SYSTEM
+                             │
+          ┌──────────────────┼──────────────────┐
+          │                  │                  │
+       Student             Faculty            Admin
+          │                  │                  │
+          └──────────────────┼──────────────────┘
+                             │
+                       Flask Backend
+                             │
+                    ┌────────┴────────┐
+                    │                 │
+                 MySQL             ML Model
+                    │                 │
+                    └────────┬────────┘
+                             │
+                    Prediction Engine
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+           Low Risk      Medium Risk     High Risk
+              │              │              │
+              └──────────────┼──────────────┘
+                             │
+                     Analytics Dashboard
 
 ## ⚙️ Installation
 
