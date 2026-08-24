@@ -76,19 +76,7 @@ The system predicts:
               └──────────────┼──────────────┘
                              │
                      Analytics Dashboard
-📸 Screenshots 
-🏠 Screenshot 1 – Home / Prediction Page
-📝 Student details input form
-🤖 Screenshot 2 – AI Prediction Result
-📊 Shows Low / Medium / High academic risk
-🎓 Screenshot 3 – Student Dashboard
-📈 Attendance, marks, CGPA and prediction history
-👨‍🏫 Screenshot 4 – Faculty Dashboard
-🔍 Student performance and at-risk students
-👨‍💼 Screenshot 5 – Admin Dashboard
-📊 Total students, departments and risk distribution
-📈 Screenshot 6 – Analytics & Reports
-📉 Performance charts and academic reports
+
 
 ## ⚙️ Installation
 
