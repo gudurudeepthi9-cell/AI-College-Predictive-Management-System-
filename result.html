@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Prediction Result</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 550px;
+            max-width: 90%;
+            background: white;
+            margin: 60px auto;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .risk {
+            font-size: 42px;
+            font-weight: bold;
+            margin: 25px 0;
+        }
+
+        .low {
+            color: green;
+        }
+
+        .medium {
+            color: orange;
+        }
+
+        .high {
+            color: red;
+        }
+
+        .details {
+            text-align: left;
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .details p {
+            font-size: 16px;
+        }
+
+        .message {
+            background: #eef2ff;
+            padding: 15px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 13px 25px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+        .button:hover {
+            background: #5568d8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Prediction Result</h1>
+
+        {% if prediction == "Low" %}
+            <div class="risk low">LOW RISK</div>
+        {% elif prediction == "Medium" %}
+            <div class="risk medium">MEDIUM RISK</div>
+        {% else %}
+            <div class="risk high">HIGH RISK</div>
+        {% endif %}
+
+        <p>
+            Model Confidence:
+            <strong>{{ confidence }}%</strong>
+        </p>
+
+        <div class="details">
+
+            <h3>Student Details</h3>
+
+            <p>
+                <strong>Attendance:</strong>
+                {{ attendance }}%
+            </p>
+
+            <p>
+                <strong>Internal Marks:</strong>
+                {{ internal_marks }}
+            </p>
+
+            <p>
+                <strong>Assignment Score:</strong>
+                {{ assignment_score }}
+            </p>
+
+            <p>
+                <strong>Previous CGPA:</strong>
+                {{ previous_cgpa }}
+            </p>
+
+        </div>
+
+        <div class="message">
+            {{ message }}
+        </div>
+
+        <a href="/" class="button">
+            Check Another Student
+        </a>
+
+    </div>
+
+</body>
+
+</html>
