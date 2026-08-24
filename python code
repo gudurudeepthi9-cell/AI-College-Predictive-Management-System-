@@ -1,0 +1,136 @@
+from flask import Flask, render_template, request
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+
+app = Flask(__name__)
+
+# Sample student dataset
+data = {
+    "attendance": [
+        95, 92, 90, 88, 85, 82, 80, 78, 75, 72,
+        70, 68, 65, 62, 60, 58, 55, 52, 48, 45
+    ],
+
+    "internal_marks": [
+        95, 90, 88, 85, 82, 80, 78, 75, 72, 70,
+        68, 65, 62, 60, 58, 55, 52, 48, 45, 40
+    ],
+
+    "assignment_score": [
+        98, 95, 92, 90, 88, 85, 82, 80, 78, 75,
+        72, 70, 68, 65, 62, 60, 55, 52, 48, 42
+    ],
+
+    "previous_cgpa": [
+        9.8, 9.5, 9.2, 9.0, 8.8, 8.5, 8.2, 8.0, 7.8, 7.5,
+        7.2, 7.0, 6.8, 6.5, 6.2, 6.0, 5.8, 5.5, 5.0, 4.5
+    ],
+
+    "risk": [
+        "Low", "Low", "Low", "Low", "Low",
+        "Low", "Low", "Low", "Low", "Medium",
+        "Medium", "Medium", "Medium", "Medium", "Medium",
+        "Medium", "High", "High", "High", "High"
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# Input features
+X = df[
+    [
+        "attendance",
+        "internal_marks",
+        "assignment_score",
+        "previous_cgpa"
+    ]
+]
+
+# Target
+y = df["risk"]
+
+# Train Random Forest model
+model = RandomForestClassifier(
+    n_estimators=100,
+    random_state=42
+)
+
+model.fit(X, y)
+
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+
+@app.route("/predict", methods=["POST"])
+def predict():
+
+    try:
+        attendance = float(request.form["attendance"])
+        internal_marks = float(request.form["internal_marks"])
+        assignment_score = float(request.form["assignment_score"])
+        previous_cgpa = float(request.form["previous_cgpa"])
+
+        # Validate input
+        if not 0 <= attendance <= 100:
+            return "Attendance must be between 0 and 100."
+
+        if not 0 <= internal_marks <= 100:
+            return "Internal marks must be between 0 and 100."
+
+        if not 0 <= assignment_score <= 100:
+            return "Assignment score must be between 0 and 100."
+
+        if not 0 <= previous_cgpa <= 10:
+            return "CGPA must be between 0 and 10."
+
+        student_data = pd.DataFrame([{
+            "attendance": attendance,
+            "internal_marks": internal_marks,
+            "assignment_score": assignment_score,
+            "previous_cgpa": previous_cgpa
+        }])
+
+        # Prediction
+        prediction = model.predict(student_data)[0]
+
+        # Prediction probability
+        probabilities = model.predict_proba(student_data)[0]
+        confidence = round(max(probabilities) * 100, 2)
+
+        if prediction == "Low":
+            message = (
+                "The student is performing well. "
+                "Continue maintaining good academic performance."
+            )
+
+        elif prediction == "Medium":
+            message = (
+                "The student needs academic attention. "
+                "Improving attendance, marks and assignments is recommended."
+            )
+
+        else:
+            message = (
+                "The student is at high academic risk. "
+                "Faculty intervention and academic support are recommended."
+            )
+
+        return render_template(
+            "result.html",
+            prediction=prediction,
+            confidence=confidence,
+            message=message,
+            attendance=attendance,
+            internal_marks=internal_marks,
+            assignment_score=assignment_score,
+            previous_cgpa=previous_cgpa
+        )
+
+    except ValueError:
+        return "Please enter valid numeric values."
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
