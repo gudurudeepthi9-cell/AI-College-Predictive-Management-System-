@@ -1,3 +1,6 @@
 git init
 git add .
-git commit -m "Initial commit - AI College Predictive Management System"
+git commit -m "AI College Predictive Management System"
+git branch -M main
+git remote add origin YOUR_GITHUB_URL
+git push -u origin main
